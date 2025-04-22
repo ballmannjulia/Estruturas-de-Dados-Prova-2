@@ -89,25 +89,47 @@ class Pilha {
 };
 
 template <class T>
-Pilha<T>::Pilha(size_t capacidade) {}
+Pilha<T>::Pilha(size_t capacidade) : capacidade(capacidade), tamanho(0), dados(new T[capacidade]) {};
 
 template <class T>
-Pilha<T>::~Pilha() {}
+Pilha<T>::~Pilha() {
+  delete[] dados;
+}
 
 template <class T>
-void Pilha<T>::empilhar(const T& valor) {}
+void Pilha<T>::empilhar(const T& valor) {
+  if(esta_cheia()) {
+    throw std::runtime_error("Pilha Cheia!!");
+  }
+   dados[tamanho++] = valor;
+}
 
 template <class T>
-T Pilha<T>::desempilhar() {}
+T Pilha<T>::desempilhar() {
+  if(esta_vazia()){
+    throw std::runtime_error("Pilha Vazia!!");
+  }
+ return dados[--tamanho];
+}
 
 template <class T>
-T& Pilha<T>::topo() {}
+T& Pilha<T>::topo() {
+  if (esta_vazia()) throw std::runtime_error("Pilha vazia");
+  return dados[tamanho - 1];
+}
 
 template <class T>
-const T& Pilha<T>::topo() const {}
+const T& Pilha<T>::topo() const {
+  if (esta_vazia()) throw std::runtime_error("Pilha vazia");
+  return dados[tamanho - 1];
+}
 
 template <class T>
-bool Pilha<T>::esta_vazia() const {}
+bool Pilha<T>::esta_vazia() const {
+  return tamanho == 0;
+}
 
 template <class T>
-bool Pilha<T>::esta_cheia() const {}
+bool Pilha<T>::esta_cheia() const {
+  return tamanho == capacidade;
+}
